@@ -1,0 +1,259 @@
+sudo yum install httpd -y
+sudo echo "welcome to aws ec2 " > /var/www/html/index.html
+sudo service httpd start 
+
+
+ORCHID COLOUR
+
+#!/bin/bash
+sudo yum install httpd -y
+sudo echo "<html><body bgcolor=orchid>aws-elb-lab-node1</body></html>" > /var/www/html/index.html
+sudo service httpd start
+
+
+CYAN CLOUR
+
+#!/bin/bash
+sudo yum install httpd -y
+sudo echo "<html><body bgcolor=CYAN>aws-elb-lab-node1</body></html>" > /var/www/html/index.html
+sudo service httpd start
+
+
+to create snapshot of [EC2]
+
+-launch instance 
+-go to storge
+-there will we volume id *open the volume id
+-select the volume and click on action 
+   1 select create a snapshot
+-select the snapshot and click on acti0n
+   1 select r cleck on CREATE IMAGE FROM SNAPSHOT
+   2 iamge name
+     discription
+---------------------------------------------------------------------------------------------------------------------------------------
+
+SEND ARE TRASFORM SNAPSHOT TO ANTHOR REGION    [ec2]
+example {ap -south-1 to ap-east-1}
+
+-goto AMI(amazon machine image)
+-there will me IAMGE
+-select the image  and go to action
+  1 click on COPY AMI
+     destination region
+     ex (ap -south-1)
+-click on copy AMI
+-----------------------------------------------------------------------------------------------------------------------------------------
+- go to anthor region
+-select amilaunch instance
+-connect instance
+-sudo service httpd start
+-copy ip adress
+-browser
+-------------------------------------------------------------------------------------------------------------------------------
+AUTO SCALING
+============
+
+-Create instance
+  keep a copy of AMI id
+-go to auto scaling 
+  open LAUNCH CONFIGUATION
+-create confguration
+  name
+  AMI ID
+  instance type {t2 micro}-
+- security groups (as we like)
+-key pair (as we like)  
+----tick it ---
+create launch configuation
+
+-select the launch configuation
+-go to action
+-select the CREATE AUTO SCALING GROUp
+step-1
+   name
+   next
+step-2
+   select all subnets
+   next
+step-3
+    on load balancer
+step-4
+    Desired capacity - 1
+    Minimum capacity  - 1
+    Maximum capacity -2
+step 5
+   next
+create a auto scaling group
+- in auto scaling group (down)
+-go to instance management (there will apper the instane creating 
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+CREATE ALARAM
+==============
+
+ 
+-open CLOUD WATCH
+-OPEN ALL ALARMS
+-CREATE alarm
+-click om select matric
+-select which you want (ec2 ELB appliactonELB logs)
+   select ec2
+- click on AUTO SCALING
+-select auto scaling 
+-select metric
+-period 1min
+-static
+-grater 
+-thrshold value 70n
+-next
+-ALAram name 
+-next-=
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+ATTACH THE ALARM TO AUTO SCALING
+
+-open auto sacling group 
+-go the AUTOMATIC SCALING (down)
+--creatte DYNAMIC SCALING POLICY
+   policy type = simple scaling
+   scaling policy name = scale-up-policy
+   cloud watch alaram = scale up alaram
+--add      1     capacity unity
+--300
+create
+
+
+-open auto sacling group 
+-go the AUTOMATIC SCALING (in down)
+--creatte DYNAMIC SCALING POLICY
+   policy type = simple scaling
+   scaling policy name = scale-down-policy
+   cloud watch alaram = scale down alaram
+--add      1     capacity unity
+--100
+create
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ROUTE 53
+
+-create a instance with installing httpd in user data--------1
+
+CREATE A DOMAIN
+- go to route 53
+-click on register domain
+   ex ; nawaz.c0m
+-buy it
+
+CREATE A HOST
+
+- GO TO ROUTE53
+-click hosted zone
+  domain name [example : nawaz.com]
+-publicic hosted zone 
+-create host zone
+-click on CREATE RECORD CLICK
+-record name [ex; www] nawaz.com
+-record type [A-routes traffic to ipv4]
+-value [ip adresss of our instance]---------1
+-ttl [300]sec
+-simple record
+copy the link and browse it
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+RELATIONAL DATABASE SERVICE [RDS]
+
+-go to rds
+-create data base
+-standerd create 
+-my sql
+-free tier
+-db instance identifer 
+  ex nawaz
+- master username
+ nawaz
+-master password
+ 1234568
+-public acesss  (YES)
+-add VPC SG
+-click on password autgentiation
+-create database
+-go to rds and open data base and go to connectivity & security
+-COPY the ENDPOINT
+- go to SG GROUP
+-ADD IN BOUND RULES 
+ MY SQL/AURORA      TCP     3306       CUSTOM   IPV4   0.0.0.0/0
+-SAVE RULE
+-go to DBEAVER
+-open it 
+- we can see FILE IN screen 
+-down the file one symbol will be there click on it
+select mysql
+-host name         paste the endpoint
+-user name 
+-paswwd
+test connection / download  / ok
+-finish 
+-select  your db in dbaver
+-open sql script
+------create database employee
+
+use employee  ( press ctrl + enter )
+
+create table empdetails (empid int,empname varchar(255), city varchar(255))    ( press ctrl + enter )
+
+select * from empdetails    ( press ctrl + enter )
+
+ insert into empdetails (empid, empname, city) values (300, 'akram' , 'ant')    ( press ctrl + enter )
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+REPLICATION OF RDS  [from one region to anthor region]
+
+-select the db
+-go to action
+-select the CREATE READ REPLICA
+-Replica source 
+  source db name
+- DB  instance identier
+-destinantion region
+  [examole ap south 1]
+-create read replica
+-go to mumbai region
+-go to rds
+-see in data base
+-data base is transfer
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+RED SHIFT
+
+-go to amazon redshift
+-go and create cluster
+-cluster identifer 
+  name
+-free trial
+-admin user name 
+-admin passwd
+create cluster
+-open the cluster 
+click on query data
+select the query in query editor
+-click on connect to data base
+-create a new connection
+-temporary credential
+- data base name 
+-data base user
+-connect
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
